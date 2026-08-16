@@ -49,27 +49,27 @@ Red A (10.147.20.0/24)                    Red B (10.119.63.0/24)
 ## 3. Creación de las redes en ZeroTier Central
 
 ### Red A (`cf719fd540e233d5`)
-![alt text](image.png)
-![alt text](image-1.png)
+![alt text](IMAGE/image.png)
+![alt text](IMAGE/image-1.png)
 
 Miembros de la Red A ya agregados y autorizados:
-![alt text](image-2.png)
+![alt text](IMAGE/image-2.png)
 
 ### Red B (`8d1c312afaab5b0c`)
-![alt text](image-3.png)
+![alt text](IMAGE/image-3.png)
 
 ---
 
 ## 4. Unión de las máquinas a la red (join)
 
 ### VM 1 — vm1-nodo1
-![alt text](unionmaquina1.png)
+![alt text](IMAGE/unionmaquina1.png)
 
 ### VM 2 — vm2-router
-![alt text](image-4.png)
+![alt text](IMAGE/image-4.png)
 
 ### VM 3 — pc3
-![alt text](unionrouter.png)
+![alt text](IMAGE/unionrouter.png)
 
 ### VM 4 — vm4-nodo3
 Unida a la Red A con IP asignada `10.147.20.4/24` (ver evidencia en la sección de rutas administradas, punto 8).
@@ -112,10 +112,10 @@ sudo sysctl -p
 
 Verificación de que `vm2-router` pertenece a ambas redes:
 
-![alt text](router1.png)
-![alt text](image-5.png)
-![alt text](router2.png)
-![alt text](router3.png)
+![alt text](IMAGE/router1.png)
+![alt text](IMAGE/image-5.png)
+![alt text](IMAGE/router2.png)
+![alt text](IMAGE/router3.png)
 
 ---
 
@@ -127,19 +127,19 @@ Debido a que el plan gratuito de ZeroTier Central no permite configurar Managed 
 ```bash
 sudo ip route add 10.119.63.0/24 via 10.147.20.1 dev ztdiyx3zuv
 ```
-![alt text](vm1add.png)
+![alt text](IMAGE/vm1add.png)
 
 ### VM 3 (hacia la Red A, vía el router)
 ```bash
 sudo ip route add 10.147.20.0/24 via 10.119.63.140 dev ztu7tju4pw
 ```
-![alt text](image-6.png)
+![alt text](IMAGE/image-6.png)
 
 ### VM 4 (hacia la Red B, vía el router)
 ```bash
 sudo ip route add 10.119.63.0/24 via 10.147.20.1 dev ztdiyx3zuv
 ```
-![alt text](image-7.png)
+![alt text](IMAGE/image-7.png)
 
 ---
 
@@ -149,13 +149,13 @@ Se realizaron pruebas de ping entre todas las máquinas de la red. Para las prue
 
 ### VM 1 → VM 3 (a través del router)
 Traceroute confirma 2 saltos: `10.147.20.1` (router) → `10.119.63.66` (vm3).
-![alt text](image-8.png)
+![alt text](IMAGE/image-8.png)
 
 ### VM 3 → VM 1 (ruta de regreso, a través del router)
-![alt text](image-9.png)
+![alt text](IMAGE/image-9.png)
 
 ### VM 4 → VM 3 (a través del router)
-![alt text](image-10.png)
+![alt text](IMAGE/image-10.png)
 
 *(Agregar también capturas de ping VM1↔VM2, VM4↔VM2 y VM1↔VM4, que al estar en la misma red — Red A — se conectan de forma directa sin pasar por el router.)*
 
