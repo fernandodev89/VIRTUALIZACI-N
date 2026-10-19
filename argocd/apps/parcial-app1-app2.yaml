@@ -1,0 +1,14 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: parcial-app1-app2
+  namespace: argocd-fdcm
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/fernandodev89/VIRTUALIZACI-N.git
+    targetRevision: assessment-06
+    path: parcial/app1-app2
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: parcial-fdcm
