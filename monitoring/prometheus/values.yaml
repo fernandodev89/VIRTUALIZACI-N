@@ -1,0 +1,32 @@
+# Prometheus - namespace monitoring-fdcm
+alertmanager:
+  enabled: false
+
+prometheus-pushgateway:
+  enabled: false
+
+# Métricas de estado de objetos de Kubernetes (estado de los pods)
+kube-state-metrics:
+  enabled: true
+
+# Métricas del nodo (CPU y memoria)
+prometheus-node-exporter:
+  enabled: true
+
+server:
+  global:
+    scrape_interval: 30s
+    evaluation_interval: 30s
+  retention: 7d
+  service:
+    type: ClusterIP
+  persistentVolume:
+    enabled: true
+    size: 5Gi
+    storageClass: standard
+  resources:
+    requests:
+      cpu: 100m
+      memory: 512Mi
+    limits:
+      memory: 1Gi
