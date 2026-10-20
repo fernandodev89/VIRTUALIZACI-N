@@ -1,0 +1,101 @@
+apiVersion: v1
+data:
+  logs-apps.json: |
+    {
+      "uid": "logs-apps-fdcm",
+      "title": "Logs de aplicaciones",
+      "tags": ["logs", "loki"],
+      "timezone": "browser",
+      "schemaVersion": 39,
+      "version": 1,
+      "refresh": "10s",
+      "time": { "from": "now-1h", "to": "now" },
+      "panels": [
+        {
+          "id": 1,
+          "type": "timeseries",
+          "title": "Volumen de logs por pod",
+          "datasource": { "type": "loki", "uid": "loki" },
+          "gridPos": { "h": 7, "w": 24, "x": 0, "y": 0 },
+          "targets": [
+            {
+              "refId": "A",
+              "expr": "sum by (pod) (count_over_time({namespace=~\"parcial-fdcm|traefik\"}[1m]))",
+              "legendFormat": "{{pod}}"
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "type": "logs",
+          "title": "Todos los logs - parcial-fdcm (app1 a app4)",
+          "datasource": { "type": "loki", "uid": "loki" },
+          "gridPos": { "h": 9, "w": 24, "x": 0, "y": 7 },
+          "options": { "showLabels": true, "showTime": true, "wrapLogMessage": true, "sortOrder": "Descending" },
+          "targets": [
+            { "refId": "A", "expr": "{namespace=\"parcial-fdcm\"}" }
+          ]
+        },
+        {
+          "id": 3,
+          "type": "logs",
+          "title": "app1",
+          "datasource": { "type": "loki", "uid": "loki" },
+          "gridPos": { "h": 8, "w": 12, "x": 0, "y": 16 },
+          "options": { "showLabels": false, "showTime": true, "wrapLogMessage": true, "sortOrder": "Descending" },
+          "targets": [
+            { "refId": "A", "expr": "{namespace=\"parcial-fdcm\", pod=~\"app1-.*\"}" }
+          ]
+        },
+        {
+          "id": 4,
+          "type": "logs",
+          "title": "app2",
+          "datasource": { "type": "loki", "uid": "loki" },
+          "gridPos": { "h": 8, "w": 12, "x": 12, "y": 16 },
+          "options": { "showLabels": false, "showTime": true, "wrapLogMessage": true, "sortOrder": "Descending" },
+          "targets": [
+            { "refId": "A", "expr": "{namespace=\"parcial-fdcm\", pod=~\"app2-.*\"}" }
+          ]
+        },
+        {
+          "id": 5,
+          "type": "logs",
+          "title": "app3",
+          "datasource": { "type": "loki", "uid": "loki" },
+          "gridPos": { "h": 8, "w": 12, "x": 0, "y": 24 },
+          "options": { "showLabels": false, "showTime": true, "wrapLogMessage": true, "sortOrder": "Descending" },
+          "targets": [
+            { "refId": "A", "expr": "{namespace=\"parcial-fdcm\", pod=~\"app3-.*\"}" }
+          ]
+        },
+        {
+          "id": 6,
+          "type": "logs",
+          "title": "app4",
+          "datasource": { "type": "loki", "uid": "loki" },
+          "gridPos": { "h": 8, "w": 12, "x": 12, "y": 24 },
+          "options": { "showLabels": false, "showTime": true, "wrapLogMessage": true, "sortOrder": "Descending" },
+          "targets": [
+            { "refId": "A", "expr": "{namespace=\"parcial-fdcm\", pod=~\"app4-.*\"}" }
+          ]
+        },
+        {
+          "id": 7,
+          "type": "logs",
+          "title": "Traefik",
+          "datasource": { "type": "loki", "uid": "loki" },
+          "gridPos": { "h": 8, "w": 24, "x": 0, "y": 32 },
+          "options": { "showLabels": false, "showTime": true, "wrapLogMessage": true, "sortOrder": "Descending" },
+          "targets": [
+            { "refId": "A", "expr": "{namespace=\"traefik\"}" }
+          ]
+        }
+      ]
+    }
+kind: ConfigMap
+metadata:
+  labels:
+    grafana_dashboard: "1"
+  name: dashboard-logs-apps
+  namespace: monitoring-fdcm
