@@ -1,0 +1,52 @@
+# Grafana - data sources y dashboards como código
+adminUser: admin
+adminPassword: admin-fdcm-lab   # solo para la práctica local
+
+persistence:
+  enabled: true
+  size: 2Gi
+  storageClass: standard
+
+service:
+  type: ClusterIP
+
+# Se expone con un Ingress propio (monitoring/ingress/)
+ingress:
+  enabled: false
+
+grafana.ini:
+  server:
+    domain: grafana.local
+    root_url: http://grafana.local
+
+# Provisioning de data sources
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+      - name: Prometheus
+        uid: prometheus
+        type: prometheus
+        access: proxy
+        url: http://prometheus-server.monitoring-fdcm.svc.cluster.local:80
+        isDefault: true
+      - name: Loki
+        uid: loki
+        type: loki
+        access: proxy
+        url: http://loki.monitoring-fdcm.svc.cluster.local:3100
+
+# Carga dashboards desde ConfigMaps con la etiqueta grafana_dashboard
+sidecar:
+  dashboards:
+    enabled: true
+    label: grafana_dashboard
+    labelValue: "1"
+    searchNamespace: monitoring-fdcm
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    memory: 512Mi
